@@ -3,13 +3,17 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const bodyParser = require('body-parser');
 
-const db =require('./model')
-
+var authorsRouter = gtorequire('./routes/authors');
+// var usersRouter = require('./routes/users');
+const db = require('./model');
 
 var app = express();
 
-db.sequelize.sync({force : true});
+db.sequelize.sync({ force: true});
+
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,7 +24,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
 
+app.use('/author', authorsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
