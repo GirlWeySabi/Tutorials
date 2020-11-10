@@ -1,6 +1,7 @@
 const connection = require('./config');
 const {Sequelize} = require('sequelize');
-const Topics = require('./topics.model')
+const ReactionModel = require('./reaction.model');
+const { Topics } = require('../model');
 
 const sequelize = new Sequelize(connection.db, connection.user, connection.password, {
     host : connection.host,
@@ -10,6 +11,6 @@ const sequelize = new Sequelize(connection.db, connection.user, connection.passw
 const db = { }
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.Topics = Topics (sequelize, Sequelize);
+db.Topics = Topics(sequelize,Sequelize);
 
 module.exports = db;

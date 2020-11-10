@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 const db =require('./model')
 
+var topicsRouter = require('./routes/topics');
 
 var app = express();
 
@@ -20,6 +21,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/topics', topicsRouter);
 
 
 // catch 404 and forward to error handler
