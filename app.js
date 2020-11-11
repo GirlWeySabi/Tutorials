@@ -8,6 +8,12 @@ const db =require('./model')
 
 
 var app = express();
+const userRoute = require('./routes/user.route');
+const courseRoute = require('./routes/course.route');
+
+db.sequelize.sync();
+
+// db.sequelize.sync({force : true});
 const reactionRoute = require('./route/reaction.route');
 
 db.sequelize.sync();
@@ -22,6 +28,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/user', userRoute);
+app.use('/course', courseRoute);
 app.use('/reaction', reactionRoute);
 
 
