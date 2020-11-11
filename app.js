@@ -3,14 +3,22 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const bodyParser = require('body-parser');
 
-const db =require('./model')
+var authorsRouter = require('./routes/authors');
+const userRoute = require('./routes/user.route');
+const courseRoute = require('./routes/course.route');
+const reactionRoute = require('./route/reaction.route')
 
 var topicsRouter = require('./routes/topics');
+const db = require('./model');
 
 var app = express();
+const commentRoute = require('./routes/comment.route');
 
-db.sequelize.sync({force : true});
+db.sequelize.sync();
+
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,6 +29,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
+
+app.use('/author', authorsRouter);
+app.use('/user', userRoute);
+app.use('/course', courseRoute);
+app.use('/reaction', reactionRoute);
+
+
+app.use('/comment', commentRoute);
+
 
 app.use('/topics', topicsRouter);
 
@@ -42,3 +60,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
