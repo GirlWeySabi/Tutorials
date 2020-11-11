@@ -9,6 +9,7 @@ const db =require('./model')
 
 var app = express();
 const userRoute = require('./routes/user.route');
+const courseRoute = require('./routes/course.route');
 
 db.sequelize.sync();
 
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/user', userRoute);
+app.use('/course', courseRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
