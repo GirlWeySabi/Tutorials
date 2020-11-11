@@ -10,12 +10,12 @@ const userRoute = require('./routes/user.route');
 const courseRoute = require('./routes/course.route');
 const reactionRoute = require('./route/reaction.route')
 
+var topicsRouter = require('./routes/topics');
 const db = require('./model');
 
 var app = express();
 const commentRoute = require('./routes/comment.route');
 
-db.sequelize.sync({force: false});
 db.sequelize.sync();
 
 var app = express();
@@ -39,6 +39,8 @@ app.use('/reaction', reactionRoute);
 
 app.use('/comment', commentRoute);
 
+
+app.use('/topics', topicsRouter);
 
 
 // catch 404 and forward to error handler

@@ -1,5 +1,6 @@
 const connection = require('./config');
 const {Sequelize} = require('sequelize');
+const Topics = require('./topics.model')
 const CommentModel = require('./comment.model')
 const authors = require('./authors.model')
 const UserModel = require('./user.model');
@@ -14,6 +15,7 @@ const sequelize = new Sequelize(connection.db, connection.user, connection.passw
 const db = { }
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+db.Topics = Topics (sequelize, Sequelize);
 db.CommentModel = CommentModel(sequelize,Sequelize);
 db.author = authors(sequelize, Sequelize);
 db.UserModel = UserModel (sequelize, Sequelize);
