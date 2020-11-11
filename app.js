@@ -12,6 +12,10 @@ const reactionRoute = require('./route/reaction.route')
 
 const db = require('./model');
 
+var app = express();
+const commentRoute = require('./routes/comment.route');
+
+db.sequelize.sync({force: false});
 db.sequelize.sync();
 
 var app = express();
@@ -33,6 +37,9 @@ app.use('/course', courseRoute);
 app.use('/reaction', reactionRoute);
 
 
+app.use('/comment', commentRoute);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -51,3 +58,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
