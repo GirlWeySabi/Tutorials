@@ -14,6 +14,9 @@ const courseRoute = require('./routes/course.route');
 db.sequelize.sync();
 
 // db.sequelize.sync({force : true});
+const reactionRoute = require('./route/reaction.route');
+
+db.sequelize.sync();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,6 +30,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/user', userRoute);
 app.use('/course', courseRoute);
+app.use('/reaction', reactionRoute);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
