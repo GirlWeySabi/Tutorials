@@ -29,26 +29,26 @@ const update = async (req, res) => {
 
 }
 
-// const destroy = async (req, res) => {
-//     const inputId = req.params.id;
-//     await db.UserModel.destroy(req.body, {
-//         where : {
-//             id : inputId
+const destroy = async (req, res) => {
+    const inputId = req.params.id;
+    await db.UserModel.destroy({
+        where : {
+            id : inputId
 
-//     }
-// })
+    }
+})
 
 
-// console.log('deleted successfully');
-// res.json('deleted successfully');
+console.log('deleted successfully');
+res.json('deleted successfully');
 
-// }
+}
 
-// WHAT IF I WANT TO DELETE AND THEN I WANT IT TO SHOW ME THE REMAINING DATA AS A RESPONSE (IN ADDITION TO "success message")
+// WHAT IF I WANT TO DELETE AND THEN I WANT IT TO SHOW ME THE REMAINING DATA AS A RESPONSE (IN ADDITION TO "success message") ANSWER: you can use findAll function for that!
 
 module.exports = {
     create,
     retrieve,
     update,
-    // destroy
+    destroy
 }

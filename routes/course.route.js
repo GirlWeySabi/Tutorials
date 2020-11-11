@@ -11,7 +11,7 @@ router.post('/', controllerC.create);
 
 router.put('/:id', controllerC.update);
 
-// router.delete('/:id', controller.destroy);
+router.delete('/:id', controllerC.destroy);
 
 
 

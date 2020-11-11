@@ -29,24 +29,24 @@ const update = async (req, res) => {
 
 }
 
-// const destroy = async (req, res) => {
-//     const inputId = req.params.id;
-//     await db.UserModel.destroy(req.body, {
-//         where : {
-//             id : inputId
+const destroy = async (req, res) => {
+    const inputId = req.params.id;  //Is it possible to do "req.params.courseTitle" instead of using id in this case (YES, JUST use courseTitle in the route, instead of "id")
+    await db.CourseModel.destroy({
+        where : {
+            id : inputId
 
-//     }
-// })
+    }
+})
 
 
-// console.log('deleted successfully');
-// res.json('deleted successfully');
+console.log('course deleted successfully');
+res.json('course deleted successfully');
 
-// }
+}
 
 module.exports = {
     create,
     retrieve,
     update,
-    // destroy
+    destroy
 }
