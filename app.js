@@ -6,10 +6,11 @@ var logger = require('morgan');
 const bodyParser = require('body-parser');
 
 var authorsRouter = require('./routes/authors');
-// var usersRouter = require('./routes/users');
-const db = require('./model');
+const userRoute = require('./routes/user.route');
+const courseRoute = require('./routes/course.route');
+const reactionRoute = require('./route/reaction.route')
 
-var app = express();
+const db = require('./model');
 
 db.sequelize.sync();
 
@@ -27,6 +28,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
 app.use('/author', authorsRouter);
+app.use('/user', userRoute);
+app.use('/course', courseRoute);
+app.use('/reaction', reactionRoute);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
