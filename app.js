@@ -3,20 +3,18 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const bodyParser = require('body-parser');
 
-const db =require('./model')
-
-
-var app = express();
+var authorsRouter = require('./routes/authors');
 const userRoute = require('./routes/user.route');
 const courseRoute = require('./routes/course.route');
+const reactionRoute = require('./route/reaction.route')
+
+const db = require('./model');
 
 db.sequelize.sync();
 
-// db.sequelize.sync({force : true});
-const reactionRoute = require('./route/reaction.route');
-
-db.sequelize.sync();
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,7 +25,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
 
+app.use('/author', authorsRouter);
 app.use('/user', userRoute);
 app.use('/course', courseRoute);
 app.use('/reaction', reactionRoute);
