@@ -8,8 +8,11 @@ const db =require('./model')
 
 
 var app = express();
+const userRoute = require('./routes/user.route');
 
-db.sequelize.sync({force : true});
+db.sequelize.sync();
+
+// db.sequelize.sync({force : true});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,6 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/user', userRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

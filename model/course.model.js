@@ -4,10 +4,11 @@ module.exports = (sequelize, Sequelize) => {
             id : {
                 type : Sequelize.INTEGER,
                 allowNull : false,
-                autoIncrement :true,
+                autoIncrement : true,
                 primaryKey : true
             },
             courseTitle : Sequelize.STRING,
         }
-    )
+    );
+    return Course;
 }
