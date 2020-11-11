@@ -8,13 +8,13 @@ const bodyParser = require('body-parser');
 var authorsRouter = require('./routes/authors');
 const userRoute = require('./routes/user.route');
 const courseRoute = require('./routes/course.route');
-const reactionRoute = require('./route/reaction.route')
-
+const reactionRoute = require('./routes/reaction.route');
+const commentRoute = require('./routes/comment.route');
 var topicsRouter = require('./routes/topics');
+
 const db = require('./model');
 
 var app = express();
-const commentRoute = require('./routes/comment.route');
 
 db.sequelize.sync();
 
@@ -35,11 +35,7 @@ app.use('/author', authorsRouter);
 app.use('/user', userRoute);
 app.use('/course', courseRoute);
 app.use('/reaction', reactionRoute);
-
-
 app.use('/comment', commentRoute);
-
-
 app.use('/topics', topicsRouter);
 
 
