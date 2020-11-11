@@ -10,6 +10,6 @@ authorsRoute.post('/', controller.create);
 
 authorsRoute.put('/:id', controller.update);
 
-authorsRoute.delete('/', controller.remove);
+authorsRoute.delete('/:id', controller.remove);
 
 module.exports = authorsRoute;

@@ -42,7 +42,6 @@ const remove = async (req,res) => {
     }
 });
     res.json('deleted');
-  
 };
 
 module.exports ={

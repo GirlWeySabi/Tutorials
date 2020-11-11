@@ -5,13 +5,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const bodyParser = require('body-parser');
 
-var authorsRouter = gtorequire('./routes/authors');
+var authorsRouter = require('./routes/authors');
 // var usersRouter = require('./routes/users');
 const db = require('./model');
 
 var app = express();
 
-db.sequelize.sync({ force: true});
+db.sequelize.sync();
 
 var app = express();
 
