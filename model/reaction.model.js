@@ -10,22 +10,12 @@ module.exports = (sequelize, Sequelize) => {
                 primaryKey: true,
                 autoIncrement : true
                 
-            } ,
-            userId :{ 
-                type: Sequelize.INTEGER,
-                allowNull : false,
-                
-            } ,
-            topicId :{ 
-                type: Sequelize.INTEGER,
-                allowNull : false,
-                
-            } ,
+            },
             react :{ 
                 type: Sequelize.BOOLEAN,
                 allowNull : false,
                 
-            } ,
+            },
             
         }
        

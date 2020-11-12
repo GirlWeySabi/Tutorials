@@ -1,4 +1,3 @@
-// const { Model } = require("sequelize/types");
 
 module.exports = (sequelize, Sequelize) => {
     const Topics = sequelize.define(
@@ -11,12 +10,8 @@ module.exports = (sequelize, Sequelize) => {
                 autoIncrement : true
             },
              topicsTitle : Sequelize.STRING,
-             tutorId : Sequelize.INTEGER,
-             coursesId : Sequelize.INTEGER
-
             
         }
     );
     return Topics;
-
 } 

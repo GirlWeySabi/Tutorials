@@ -1,3 +1,4 @@
+
 module.exports = (sequelize, Sequelize) => {
     const Author = sequelize.define(
         'author',{
