@@ -8,9 +8,9 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.INTEGER,
                 allowNull : false,
                 primaryKey: true,
-                autoIncrement : true
-                
-            },
+                autoIncrement : true                
+            } ,
+            
             react :{ 
                 type: Sequelize.BOOLEAN,
                 allowNull : false,

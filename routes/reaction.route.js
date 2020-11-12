@@ -7,7 +7,9 @@ const controller = require('../controllers/reaction.controller');
 
 router.get('/', controller.retrieve);
 
-router.post('/', controller.create);
+router.get('/:id', controller.findOne);
+
+router.post('/:topicId', controller.create);
 
 router.put('/:id', controller.update);
 
