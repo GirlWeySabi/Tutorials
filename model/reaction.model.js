@@ -8,19 +8,9 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.INTEGER,
                 allowNull : false,
                 primaryKey: true,
-                autoIncrement : true
-                
+                autoIncrement : true                
             } ,
-            userId :{ 
-                type: Sequelize.INTEGER,
-                allowNull : false,
-                
-            } ,
-            topicId :{ 
-                type: Sequelize.INTEGER,
-                allowNull : false,
-                
-            } ,
+            
             react :{ 
                 type: Sequelize.BOOLEAN,
                 allowNull : false,

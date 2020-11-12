@@ -24,6 +24,32 @@ db.UserModel = UserModel (sequelize, Sequelize);
 db.CourseModel = Models.courses();
 db.ReactionModel = ReactionModel(sequelize,Sequelize);
 
+//associating authors and topics
+db.author.hasMany(db.Topics);
+db.Topics.belongsTo(db.author);
+
+//associating courses and topics
+db.CourseModel.hasMany(db.Topics);
+db.Topics.belongsTo(db.CourseModel);
+
+//associating users and comment
+db.UserModel.hasOne(db.CommentModel);
+db.CommentModel.belongsTo(db.UserModel);
+
+//associating users and reaction
+db.UserModel.hasOne(db.ReactionModel);
+db.ReactionModel.belongsTo(db.UserModel);
+
+//associating topics and comments
+db.Topics.hasMany(db.CommentModel);
+db.CommentModel.belongsTo(db.Topics);
+
+//associating topics and reaction
+db.Topics.hasMany(db.ReactionModel);
+db.ReactionModel.belongsTo(db.Topics);
+
+
+
 
 db.author.hasMany(db.Topics);
 db.Topics.belongsTo(db.author,{
