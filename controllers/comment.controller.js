@@ -13,8 +13,19 @@ const create = async (req, res) => {
 
 
 const retrieve = async (req,res) => {
-   const retrivedData = await db.CommentModel.findAll();
+   const retrivedData = await db.CommentModel.findAll( );
     res.json(retrivedData);
+}
+const findOne = async (req,res) => {
+    let input = req.params.id;
+    const retrievedData = await db.CommentModel.findAll({where: {
+        id : input
+    },
+    include : [
+        {model : db.Topics},
+        {model : db.UserModel}]
+});
+    res.json(retrievedData);
 }
 
 const update = async (req,res) => {
@@ -47,5 +58,6 @@ module.exports = {
     create,
     retrieve,
     update,
-    destroy
+    destroy,
+    findOne
 }

@@ -9,22 +9,7 @@ module.exports = (sequelize, Sequelize) => {
                 autoIncrement : true
                 
             } ,
-            firstName :{ 
-                type: Sequelize.STRING,
-                allowNull : false,
             
-                
-            } ,
-            lastName :{ 
-                type: Sequelize.STRING,
-                allowNull : false,
-            
-            } ,
-            email :{ 
-                type: Sequelize.STRING,
-                allowNull : false,
-                
-            } ,
             comment : {
                 type : Sequelize.STRING,
                 allowNull : false,

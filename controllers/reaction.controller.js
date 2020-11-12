@@ -17,6 +17,18 @@ const retrieve = async (req,res) => {
     res.json(retrivedData);
 }
 
+const findOne = async (req,res) => {
+    let input = req.params.id;
+    const retrievedData = await db.ReactionModel.findAll({where: {
+        id : input
+    },
+    include : [
+        {model : db.Topics},
+        {model : db.UserModel}]
+});
+    res.json(retrievedData);
+}
+
 const update = async (req,res) => {
 
     const inputId = req.params.id;
@@ -47,5 +59,6 @@ module.exports = {
     create,
     retrieve,
     update,
-    destroy
+    destroy,
+    findOne
 }

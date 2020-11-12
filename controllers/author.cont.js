@@ -11,7 +11,12 @@ const findOne = async (req,res) => {
     let input = req.params.id;
     const data = await db.author.findAll({where: {
         id : input
-    }});
+    },
+
+    include : db.Topics
+
+});
+    
     res.json(data);
 }
 

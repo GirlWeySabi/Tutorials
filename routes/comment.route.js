@@ -5,7 +5,10 @@ const router = express.Router();
 const controller = require('../controllers/comment.controller');
 
 
+
 router.get('/', controller.retrieve);
+
+router.get('/:id', controller.findOne);
 
 router.post('/', controller.create);
 
