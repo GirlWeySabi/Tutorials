@@ -2,9 +2,17 @@ const db = require("../model");
 
 
 const findAll = async (req,res) => {
-    const data = await db.author.findAll();
-    res.json(data);
-  
+    let input = req.params.id;
+    const data = await db.author.findAll(
+        {
+            where:{
+                id :input
+            },
+            include : db.Topics
+        }
+    );
+        res.json(data);
+        
 };
 
 const findOne = async (req,res) => {
