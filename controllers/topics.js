@@ -2,9 +2,14 @@ const db = require('../model');
 
 const create = async (req, res) => {
     const data = req.body;
-
+    const authorId = req.params.authorId;
+    const courseId = req.params.courseId
     await db.Topics.create(
-        data
+        {
+           topicsTitle : data.topicsTitle,
+           authorId : authorId, 
+           courseId : courseId
+        }
     );
     res.json(data);
     console.log(data);
@@ -12,9 +17,20 @@ const create = async (req, res) => {
 
 
 const retrieve = async (req,res) => {
-    const retrievedData = await db.Topics.findAll();
+    const retrievedData = await db.Topics.findAll({
+        include : [
+            {
+                model : db.author,
+
+            },
+            {
+               model : db.CourseModel
+
+            }
+        ] 
+    });
      console.log(retrievedData);
-     res.json(retrievedData);
+     res.json(retrievedData)
 }
 
 const update = async (req,res) => {

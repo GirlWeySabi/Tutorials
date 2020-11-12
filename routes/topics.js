@@ -5,7 +5,7 @@ var controllers = require('../controllers/topics');
 
 router.get('/', controllers.retrieve);
   
-router.post('/', controllers.create);
+router.post('/:authorId/:courseId', controllers.create);
 
 router.put('/:id', controllers.update);
 

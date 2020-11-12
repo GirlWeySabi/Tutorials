@@ -17,9 +17,24 @@ const findAll = async (req,res) => {
 
 const findOne = async (req,res) => {
     let input = req.params.id;
-    const data = await db.author.findAll({where: {
-        id : input
-    }});
+    const data = await db.author.findAll(
+        {
+            where: {
+             id : input
+        },
+        include : [
+            {
+                model : db.Topics,
+
+            },
+            {
+               model : db.CourseModel
+
+            }
+        ] 
+    });
+
+    console.log(data);    
     res.json(data);
 }
 
@@ -27,10 +42,10 @@ const create = async (req,res) => {
     const data = req.body;
     console.log(data);
     console.log('hello');
-    await db.author.create(
+  const dd = await db.author.create(
         data
     );
-   res.json(data);
+   res.json(dd);
 }
 
 const update = async (req,res) => {
