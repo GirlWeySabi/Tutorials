@@ -11,7 +11,9 @@ const create = async (req, res) => {
 }
 
 const retrieve = async (req, res) => {
-    const retrievedData= await db.CourseModel.findAll();
+    const retrievedData= await db.CourseModel.findAll(
+        {include : db.Topics}
+    );
     console.log(retrievedData);
     res.json(retrievedData);
 }

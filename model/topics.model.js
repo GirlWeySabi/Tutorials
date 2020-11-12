@@ -11,8 +11,8 @@ module.exports = (sequelize, Sequelize) => {
                 autoIncrement : true
             },
              topicsTitle : Sequelize.STRING,
-             tutorId : Sequelize.INTEGER,
-             coursesId : Sequelize.INTEGER
+            // tutorId : Sequelize.INTEGER,
+            // coursesId : Sequelize.INTEGER
 
             
         }
