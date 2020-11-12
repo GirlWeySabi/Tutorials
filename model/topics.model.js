@@ -11,6 +11,7 @@ module.exports = (sequelize, Sequelize) => {
                 autoIncrement : true
             },
              topicsTitle : Sequelize.STRING,
+            
         }
     );
     return Topics;

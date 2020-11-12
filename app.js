@@ -16,7 +16,7 @@ const db = require('./model');
 
 var app = express();
 
-db.sequelize.sync({force: false});
+db.sequelize.sync({alter : true});
 
 var app = express();
 

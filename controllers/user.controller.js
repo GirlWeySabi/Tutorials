@@ -23,8 +23,14 @@ const findOne = async (req,res) => {
         id : input
     },
 
-    include : db.CommentModel
-
+    include :[
+        {
+            model : db.CommentModel
+        },
+        {
+            model : db.ReactionModel
+        }
+   ]
 });
     
     res.json(retrievedData);
@@ -66,5 +72,5 @@ module.exports = {
     retrieve,
     findOne,
     update,
-    destroy
+    destroy,
 }

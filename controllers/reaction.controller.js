@@ -5,7 +5,11 @@ const create = async (req, res) => {
     const data = req.body;
 
    await db.ReactionModel.create(
-        data    
+        {
+            react : data.react,
+            userId : data.userId,
+            topicId : req.params.topicId
+        }
     );
     res.json(data);
     console.log(data);

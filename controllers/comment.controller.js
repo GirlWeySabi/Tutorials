@@ -5,10 +5,14 @@ const create = async (req, res) => {
     const data = req.body;
 
    await db.CommentModel.create(
-        req.body  
+       {
+
+           comment : data.comment,
+           userId : data.userId,
+           topicId : req.params.topicId
+        }
     );
     res.json(data);
-    console.log(data);
 }
 
 
