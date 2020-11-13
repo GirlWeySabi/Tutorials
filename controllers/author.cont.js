@@ -32,12 +32,32 @@ const findOne = async (req,res) => {
 
 const create = async (req,res) => {
     const data = req.body;
+    const email = data.email;
     console.log(data);
-    console.log('hello');
-  const dd = await db.author.create(
-        data
-    );
-   res.json(dd);
+
+    // authentication
+    const check = await db.author.findOne({
+        where : {
+            email : email
+        }
+    });
+    console.log('--------------------------------------------------------------')
+    console.log('checking',check);
+    console.log('--------------------------------------------------------------')
+
+
+    if (check){
+
+        res.json('data with the email already exits');
+    }else{
+        
+        // if pass insert data
+        const dd = await db.author.create(
+                data
+            );
+        res.json(dd);
+    }
+
 }
 
 const update = async (req,res) => {

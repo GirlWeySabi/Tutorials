@@ -23,12 +23,18 @@ const retrieve = async (req,res) => {
 
 const findOne = async (req,res) => {
     let input = req.params.id;
-    const retrievedData = await db.ReactionModel.findAll({where: {
-        id : input
+    const retrievedData = await db.ReactionModel.findOne(
+        {
+            where: {
+            id : input
     },
     include : [
-        {model : db.Topics},
-        {model : db.UserModel}]
+        {
+            model : db.Topics
+        },
+        {
+            model : db.UserModel
+        }]
 });
     res.json(retrievedData);
 }

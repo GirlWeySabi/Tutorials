@@ -7,7 +7,7 @@ const controllerC = require('../controllers/course.controller');
 
 router.get('/', controllerC.retrieve);
 
-router.post('/', controllerC.create);
+router.post('/:authorId', controllerC.create);
 
 router.put('/:id', controllerC.update);
 
