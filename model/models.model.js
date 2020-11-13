@@ -68,7 +68,67 @@ class Models {
         );
      }
 
-    
+    comment = () => {
+        return this.sequelize.define(
+            'comment', 
+            {
+                id :{ 
+                    type: this.Sequelize.INTEGER,
+                    allowNull : false,
+                    primaryKey: true,
+                    autoIncrement : true
+                    
+                } ,
+                
+                comment : {
+                    type : this.Sequelize.STRING,
+                    allowNull : false,
+                },
+            }
+        
+        );
+        
+    }
+
+    reaction = () =>{
+       return this.sequelize.define(
+            'reaction', 
+            {
+                id :{ 
+                    type: this.Sequelize.INTEGER,
+                    allowNull : false,
+                    primaryKey: true,
+                    autoIncrement : true                
+                } ,
+                
+                react :{ 
+                    type: this.Sequelize.BOOLEAN,
+                    allowNull : false,
+                    
+                } ,
+                
+            }
+           
+        );
+    }
+
+    user = () => {
+        return this.sequelize.define(
+            'user', 
+            {
+                id : {
+                    type : this.Sequelize.INTEGER,
+                    allowNull : false,
+                    autoIncrement :true,
+                    primaryKey : true
+                },
+                firstName : this.Sequelize.STRING,
+                lastName : this.Sequelize.STRING,
+                email : this.Sequelize.STRING,
+            }
+        );
+    }
+   
 }
 
 module.exports = Models;
