@@ -9,7 +9,7 @@ const findAll = async (req,res) => {
 
 const findOne = async (req,res) => {
     let input = req.params.id;
-    const data = await db.author.findAll(
+    const data = await db.author.findOne(
         {
             where: {
              id : input
