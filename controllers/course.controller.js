@@ -1,14 +1,34 @@
 const db = require('../model/index');
 
 const create = async (req, res) => {
+    
     const data = req.body;
+    const authorId = req.params.authorId;
+    const courseTitle = data.courseTitle.toUpperCase();
+
+    const check = await db.CourseModel.findOne({
+        where : {
+            courseTitle : courseTitle,
+            authorId : authorId
+        }
+    });
+
+
+    // checking if the instance of the course exits
+    if (check){
+        return;
+    }
 
     await db.CourseModel.create(
-        data
+        {
+            courseTitle : courseTitle,
+            authorId : authorId 
+        }
     );
     res.json(data);
     console.log(data);
 }
+
 
 const retrieve = async (req, res) => {
     const retrievedData= await db.CourseModel.findAll(
