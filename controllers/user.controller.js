@@ -11,10 +11,31 @@ const create = async (req, res) => {
 }
 
 const retrieve = async (req, res) => {
-    const retrievedData= await db.UserModel.findAll();
+    const retrievedData = await db.UserModel.findAll();
     console.log(retrievedData);
     res.json(retrievedData);
+} 
+
+
+const findOne = async (req,res) => {
+    let input = req.params.id;
+    const retrievedData = await db.UserModel.findAll({where: {
+        id : input
+    },
+
+    include :[
+        {
+            model : db.CommentModel
+        },
+        {
+            model : db.ReactionModel
+        }
+   ]
+});
+    
+    res.json(retrievedData);
 }
+
 
 const update = async (req, res) => {
     const inputId = req.params.id;
@@ -49,6 +70,7 @@ res.json('deleted successfully');
 module.exports = {
     create,
     retrieve,
+    findOne,
     update,
-    destroy
+    destroy,
 }
