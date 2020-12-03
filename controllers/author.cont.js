@@ -8,7 +8,7 @@ const findAll = async (req,res) => {
             where:{
                 id :input
             },
-            include : db.Topics
+            include : db.topics
         }
     );
         res.json(data);
@@ -24,11 +24,11 @@ const findOne = async (req,res) => {
         },
         include : [
             {
-                model : db.Topics,
+                model : db.topics,
 
             },
             {
-               model : db.CourseModel
+               model : db.course
 
             }
         ] 

@@ -4,7 +4,7 @@ const db = require('../model');
 const create = async (req, res) => {
     const data = req.body;
 
-   await db.CommentModel.create(
+   await db.comment.create(
        {
 
            comment : data.comment,
@@ -17,16 +17,16 @@ const create = async (req, res) => {
 
 
 const retrieve = async (req,res) => {
-   const retrivedData = await db.CommentModel.findAll( );
+   const retrivedData = await db.comment.findAll( );
     res.json(retrivedData);
 }
 const findOne = async (req,res) => {
     let input = req.params.id;
-    const retrievedData = await db.CommentModel.findAll({where: {
+    const retrievedData = await db.comment.findAll({where: {
         id : input
     },
     include : [
-        {model : db.Topics},
+        {model : db.topics},
         {model : db.UserModel}]
 });
     res.json(retrievedData);
@@ -36,7 +36,7 @@ const update = async (req,res) => {
 
     const inputId = req.params.id;
     console.log(inputId);
-    await db.CommentModel.update(req.body,{
+    await db.comment.update(req.body,{
         where: {
             id:inputId
           }
@@ -48,7 +48,7 @@ const update = async (req,res) => {
 const destroy = async (req,res) => {
 
      const inputId = req.params.id;
-    await db.CommentModel.destroy({
+    await db.comment.destroy({
         where : {
             id : inputId
         }

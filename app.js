@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const bodyParser = require('body-parser');
+const passport = require('passport');
+
 
 var authorsRouter = require('./routes/authors');
 const userRoute = require('./routes/user.route');
@@ -16,7 +18,7 @@ const db = require('./model');
 
 var app = express();
 
-db.sequelize.sync({alter : true});
+db.sequelize.sync({force : false});
 
 var app = express();
 
@@ -30,9 +32,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
+app.use(passport.initialize());
+require('./config/passport')(passport);
+
 
 app.use('/author', authorsRouter);
-app.use('/user', userRoute);
+app.use('/users', userRoute);
 app.use('/course', courseRoute);
 app.use('/reaction', reactionRoute);
 app.use('/comment', commentRoute);

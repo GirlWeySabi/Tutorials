@@ -17,6 +17,7 @@ class Models{
                 lastName : this.Sequelize.STRING,
                 email : this.Sequelize.STRING,
                 phoneNumber : this.Sequelize.STRING,
+                password : this.Sequelize.STRING,
         
             }
         );
@@ -108,6 +109,8 @@ class Models{
                 firstName : this.Sequelize.STRING,
                 lastName : this.Sequelize.STRING,
                 email : this.Sequelize.STRING,
+                password : this.Sequelize.STRING,
+
             }
         );
     }

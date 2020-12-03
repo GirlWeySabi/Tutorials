@@ -4,7 +4,7 @@ const create = async (req, res) => {
     const data = req.body;
     const authorId = req.params.authorId;
     const courseId = req.params.courseId
-    await db.Topics.create(
+    await db.topics.create(
         {
            topicsTitle : data.topicsTitle,
            authorId : authorId, 
@@ -17,14 +17,14 @@ const create = async (req, res) => {
 
 
 const retrieve = async (req,res) => {
-    const retrievedData = await db.Topics.findAll({
+    const retrievedData = await db.topics.findAll({
         include : [
             {
                 model : db.author,
 
             },
             {
-               model : db.CourseModel
+               model : db.course
 
             }
         ] 
@@ -37,7 +37,7 @@ const update = async (req,res) => {
 
     const inputId = req.params.id;
     console.log(req.body);
-    await db.Topics.update(req.body,{
+    await db.topics.update(req.body,{
         where: {
             id:inputId
           }
@@ -49,7 +49,7 @@ const update = async (req,res) => {
 const destroy = async (req,res) => {
 
     const inputId = req.params.id;
-   await db.Topics.destroy({
+   await db.topics.destroy({
        where : {
            id : inputId
        }

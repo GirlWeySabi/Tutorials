@@ -4,7 +4,7 @@ const db = require('../model/index');
 const create = async (req, res) => {
     const data = req.body;
 
-   await db.ReactionModel.create(
+   await db.reaction.create(
         {
             react : data.react,
             userId : data.userId,
@@ -16,18 +16,18 @@ const create = async (req, res) => {
 }
 
 const retrieve = async (req,res) => {
-   const retrivedData = await db.ReactionModel.findAll();
+   const retrivedData = await db.reaction.findAll();
     console.log(retrivedData);
     res.json(retrivedData);
 }
 
 const findOne = async (req,res) => {
     let input = req.params.id;
-    const retrievedData = await db.ReactionModel.findAll({where: {
+    const retrievedData = await db.reaction.findAll({where: {
         id : input
     },
     include : [
-        {model : db.Topics},
+        {model : db.topics},
         {model : db.UserModel}]
 });
     res.json(retrievedData);
@@ -37,7 +37,7 @@ const update = async (req,res) => {
 
     const inputId = req.params.id;
     console.log(req.body);
-    await db.ReactionModel.update(req.body,{
+    await db.reaction.update(req.body,{
         where: {
             id:inputId
           }
@@ -49,7 +49,7 @@ const update = async (req,res) => {
 const destroy = async (req,res) => {
 
      const inputId = req.params.id;
-    await db.ReactionModel.destroy({
+    await db.reaction.destroy({
         where : {
             id : inputId
         }
