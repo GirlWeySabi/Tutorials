@@ -1,37 +1,27 @@
 const db = require("../model");
+const bcrypt = require('bcrypt');
+const jwt =require('jsonwebtoken');
+const passport = require('passport');
+const multer = require('multer');
+const singleUpload = require('../middleware/profilePic');
 
-
-const findAll = async (req,res) => {
-    let input = req.params.id;
-    const data = await db.author.findAll(
-        {
-            where:{
-                id :input
-            },
-            include : db.topics
-        }
-    );
-        res.json(data);
         
-};
+
 
 const findOne = async (req,res) => {
-    let input = req.params.id;
     const data = await db.author.findAll(
         {
             where: {
-             id : input
+             id : req.user.id
         },
         include : [
             {
                 model : db.topics,
-
-            },
-            {
-               model : db.course
-
+                include : [{model : db.courses}]
+                
             }
-        ] 
+            
+        ]
     });
 
     console.log(data);    
@@ -39,40 +29,100 @@ const findOne = async (req,res) => {
 }
 
 const create = async (req,res) => {
+
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(req.body.password, salt);
+    
     const data = req.body;
-    console.log(data);
-    console.log('hello');
-  const dd = await db.author.create(
+    data.password =hash;
+   
+  await db.author.create(
         data
     );
-   res.json(dd);
+   res.json('registered successfully');
 }
 
+const login = async function(req, res){
+    const email = req.body.email;
+    const password = req.body.password;
+    
+    const author = await db.author.findOne({
+        where:{
+            email : email
+        },
+
+    });
+    if(!author){ 
+        return res.json('not user')
+       
+    }
+    const checkPassword = bcrypt.compareSync(password, author.password); 
+    if (!checkPassword){
+        return res.json("Password incorrect")
+        }
+    else{
+        const payLoad = {
+        id : author.id
+    }
+    const token = jwt.sign(payLoad, 'myVerySecret');
+    res.json({
+        "token" : token,
+        "msg" : "login successful",
+        "author" : author,
+        "status" : 200
+    });
+    
+}}
+
+
+
 const update = async (req,res) => {
-    const input = req.params.id;
     await db.author.update(req.body,{where:{
-        id : input
+        id : req.author.id
     }});
-  res.json('update suc');
+  res.json('updated successfully');
 }
 
 const remove = async (req,res) => {
 
-    const input = req.params.id;
     await db.author.destroy({
         where:{
-            id : input
+            id : req.author.id
     }
 });
-    res.json('deleted');
+    res.json('deleted successfully');
 };
 
+const profilePicture = (req,res)=>{
+        singleUpload(req, res, async function(err){
+            if (err instanceof multer.MulterError){
+                return res.json(err.message);
+            }
+            else if (err) {
+                return res.json(err);
+            }
+            else if(!req.file){
+                return res.json({"image": req.file, "msg": "please select an image to upload"});
+            }
+            if(req.file){
+        
+                await db.author.update({profile_pic:req.file.path},{where:{id:req.user.id}});
+        
+                return res.json({"msg":"uploaded","file":req.file});
+            }
+        });
+        
+}
+
 module.exports ={
-    findAll,
+    // findAll,
     findOne,
     create,
+    login,
     update,
-    remove
+    remove,
+    profilePicture
 
 }
 

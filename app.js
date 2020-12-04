@@ -34,9 +34,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 require('./config/passport')(passport);
+require('./config/authorsPassport')(passport);
 
 
-app.use('/author', authorsRouter);
+app.use('/authors', authorsRouter);
 app.use('/users', userRoute);
 app.use('/course', courseRoute);
 app.use('/reaction', reactionRoute);

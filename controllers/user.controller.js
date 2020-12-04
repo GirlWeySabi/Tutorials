@@ -2,6 +2,8 @@ const db = require('../model');
 const bcrypt = require('bcrypt');
 
 const jwt =require('jsonwebtoken');
+const multer = require('multer');
+const singleUpload = require('../middleware/profilePic')
 
 const passport = require('passport');
 const create = async (req, res) => {
@@ -15,7 +17,7 @@ const create = async (req, res) => {
     await db.user.create(
         data
     );
-    res.json('registration successful');
+    res.json('registered successfully');
     console.log(data);
 }
 
@@ -107,7 +109,26 @@ res.json('deleted successfully');
 
 }
 
-// WHAT IF I WANT TO DELETE AND THEN I WANT IT TO SHOW ME THE REMAINING DATA AS A RESPONSE (IN ADDITION TO "success message") ANSWER: you can use findAll function for that!
+const profilePicture = (req,res)=>{
+    singleUpload(req, res, async function(err){
+        if (err instanceof multer.MulterError){
+            return res.json(err.message);
+        }
+        else if (err) {
+            return res.json(err);
+        }
+        else if(!req.file){
+            return res.json({"image": req.file, "msg": "please select an image to upload"});
+        }
+        if(req.file){
+    
+            await db.user.update({profile_pic:req.file.path},{where:{id:req.user.id}});
+    
+            return res.json({"msg":"uploaded","file":req.file});
+        }
+    });
+    
+}
 
 module.exports = {
     create,
@@ -115,5 +136,6 @@ module.exports = {
     profile,
     update,
     destroy,
-    login
+    login,
+    profilePicture
 }

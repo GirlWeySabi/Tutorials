@@ -21,13 +21,13 @@ const retrieve = async (req,res) => {
     res.json(retrivedData);
 }
 const findOne = async (req,res) => {
-    let input = req.params.id;
+    let input = req.user.id;
     const retrievedData = await db.comment.findAll({where: {
         id : input
     },
     include : [
         {model : db.topics},
-        {model : db.UserModel}]
+        {model : db.user}]
 });
     res.json(retrievedData);
 }

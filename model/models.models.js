@@ -15,9 +15,13 @@ class Models{
                 },
                 firstName : this.Sequelize.STRING,
                 lastName : this.Sequelize.STRING,
-                email : this.Sequelize.STRING,
+                email : {
+                  type:this.Sequelize.STRING,
+                  unique: true
+                },
                 phoneNumber : this.Sequelize.STRING,
                 password : this.Sequelize.STRING,
+                profile_pic: this.Sequelize.STRING
         
             }
         );
@@ -55,6 +59,7 @@ class Models{
                     primaryKey : true
                 },
                 courseTitle : this.Sequelize.STRING,
+                photo: this.Sequelize.STRING
             }
         );
     }
@@ -92,6 +97,8 @@ class Models{
                     autoIncrement : true
                 },
                  topicsTitle : this.Sequelize.STRING,
+                 file: this.Sequelize.STRING,
+                 content: this.Sequelize.STRING
             }
         );
     } 
@@ -108,8 +115,12 @@ class Models{
                 },
                 firstName : this.Sequelize.STRING,
                 lastName : this.Sequelize.STRING,
-                email : this.Sequelize.STRING,
+                email :{
+                  type: this.Sequelize.STRING,
+                  unique: true
+                },
                 password : this.Sequelize.STRING,
+                profile_pic: this.Sequelize.STRING,
 
             }
         );

@@ -6,6 +6,7 @@ const controller = require('../controllers/user.controller');
 
 
 router.get('/profile', passport.authenticate("jwt",{session:false}), controller.profile);
+router.post('/upload/profilepic', passport.authenticate("jwt",{session:false}), controller.profilePicture);
 router.post('/register', controller.create);
 router.put('/update',passport.authenticate("jwt",{session:false}), controller.update);
 router.delete('/delete',passport.authenticate("jwt",{session:false}), controller.destroy);

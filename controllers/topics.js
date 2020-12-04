@@ -1,17 +1,22 @@
 const db = require('../model');
+const multer = require('multer');
+const multipleUpload =require('../middleware/multiple.upload')
+
 
 const create = async (req, res) => {
     const data = req.body;
-    const authorId = req.params.authorId;
+    const authorId = req.user.authorId;
     const courseId = req.params.courseId
-    await db.topics.create(
+   const result = await db.topics.create(
         {
            topicsTitle : data.topicsTitle,
+           file: data.file,
+           content: data.content,
            authorId : authorId, 
            courseId : courseId
         }
     );
-    res.json(data);
+    res.json(result);
     console.log(data);
 }
 
@@ -24,7 +29,7 @@ const retrieve = async (req,res) => {
 
             },
             {
-               model : db.course
+               model : db.courses
 
             }
         ] 
@@ -55,13 +60,33 @@ const destroy = async (req,res) => {
        }
    })
 
-   console.log('deleted succ');
-   res.json('deleted succ');
+   res.json('deleted successfully');
 }
+async function upload(req, res){
+    multerConfig.filesUpload(req, res, async function(err){
+        if (err instanceof multer.MulterError){
+            return res.json(err.message);
+        }
+        else if (err) {
+            return res.json(err);
+        }
+        else if(!req.file){
+            return res.json({"image": req.file, "msg": "please select files to upload"});
+        }
+        if(req.file){
+    
+            await connection.topics.update({files:req.file.path},{where:{id:req.user.id}});
+    
+            return res.json({"msg":"uploaded","file":req.file});
+        }
+    });
+    }
+    
 
 module.exports = {
     create,
     retrieve,
     update,
-    destroy
+    destroy,
+    upload
 }
