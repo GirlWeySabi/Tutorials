@@ -6,7 +6,7 @@ const passport = require('passport');
 const controllerC = require('../controllers/course.controller');
 
 
-router.get('/', passport.authenticate("jwt",{session:false}), controllerC.retrieve);
+router.get('/', controllerC.retrieve);
 
 router.post('/', passport.authenticate("jwt",{session:false}), controllerC.create);
 

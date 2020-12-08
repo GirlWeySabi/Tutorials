@@ -8,9 +8,7 @@ router.get('/', passport.authenticate("jwt",{session:false}),controllers.retriev
   
 router.post('/:courseId', passport.authenticate("jwt",{session:false}),controllers.create);
 router.post('/upload', passport.authenticate("jwt",{session:false}),controllers.upload);
-
 router.put('/:id',passport.authenticate("jwt",{session:false}), controllers.update);
-
 router.delete('/:id', passport.authenticate("jwt",{session:false}),controllers.destroy);
 
 

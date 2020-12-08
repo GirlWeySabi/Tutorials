@@ -5,8 +5,8 @@ const filesUpload = multer({
     storage: storage,
     // limits: {fileSize: 1024 * 1024 }
     }).fields('files_upload'[
-        { name: 'avatar', maxCount: 1 },
-        { name: 'gallery', maxCount: 8 }
+        { name: 'documents', maxCount: 1 },
+        { name: 'videos', maxCount: 1  }
       ]);
 
     module.exports = filesUpload;

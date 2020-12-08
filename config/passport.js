@@ -5,7 +5,7 @@ const passport = require('passport');
 const models = require('../model');
 
 const user = models.user;
-const author = models.author;
+// const author = models.author;
 // const comment = models.comment;
 // const reaction = models.reaction;
 // const course = models.course;

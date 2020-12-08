@@ -70,10 +70,10 @@ async function upload(req, res){
         else if (err) {
             return res.json(err);
         }
-        else if(!req.file){
+        else if(!req.files){
             return res.json({"image": req.file, "msg": "please select files to upload"});
         }
-        if(req.file){
+        if(req.files){
     
             await connection.topics.update({files:req.file.path},{where:{id:req.user.id}});
     

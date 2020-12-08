@@ -76,7 +76,6 @@ const login = async function(req, res){
 }}
 
 
-
 const update = async (req,res) => {
     await db.author.update(req.body,{where:{
         id : req.author.id
