@@ -40,7 +40,7 @@ const retrieve = async (req,res) => {
 
 const update = async (req,res) => {
 
-    const inputId = req.params.id;
+    const inputId = req.user.authorId;
     console.log(req.body);
     await db.topics.update(req.body,{
         where: {
@@ -53,7 +53,7 @@ const update = async (req,res) => {
 
 const destroy = async (req,res) => {
 
-    const inputId = req.params.id;
+    const inputId = req.user.authorId;
    await db.topics.destroy({
        where : {
            id : inputId

@@ -1,19 +1,21 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
+const checkLogout = require('../middleware/logout');
 
 
 const controller = require('../controllers/reaction.controller');
 
 
-router.get('/', controller.retrieve);
+router.get('/allreaction', passport.authenticate("jwt",{session:false}), checkLogout, controller.retrieve);
 
-router.get('/:id', controller.findOne);
+router.get('/singlereaction',passport.authenticate("jwt",{session:false}), checkLogout, controller.findOne);
 
-router.post('/:topicId', controller.create);
+router.post('/:topicId', passport.authenticate("jwt",{session:false}), checkLogout, controller.create);
 
-router.put('/:id', controller.update);
+router.put('/update', passport.authenticate("jwt",{session:false}), checkLogout, controller.update);
 
-router.delete('/:id', controller.destroy);
+router.delete('/delete', passport.authenticate("jwt",{session:false}), checkLogout, controller.destroy);
 
 
 

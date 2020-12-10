@@ -4,7 +4,6 @@
 // const passport = require('passport');
 // const models = require('../model');
 
-// // const user = models.user;
 // const author = models.author;
 
 // const jwtOptions = {}

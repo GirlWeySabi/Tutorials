@@ -22,7 +22,7 @@ const retrieve = async (req,res) => {
 }
 
 const findOne = async (req,res) => {
-    let input = req.params.id;
+    let input = req.user.id;
     const retrievedData = await db.reaction.findAll({where: {
         id : input
     },
@@ -35,7 +35,7 @@ const findOne = async (req,res) => {
 
 const update = async (req,res) => {
 
-    const inputId = req.params.id;
+    const inputId = req.user.id;
     console.log(req.body);
     await db.reaction.update(req.body,{
         where: {
@@ -48,7 +48,7 @@ const update = async (req,res) => {
 
 const destroy = async (req,res) => {
 
-     const inputId = req.params.id;
+     const inputId = req.user.id;
     await db.reaction.destroy({
         where : {
             id : inputId

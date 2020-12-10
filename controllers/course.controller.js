@@ -10,6 +10,7 @@ const create = async (req, res) => {
     // console.log(data);
 }
 
+
 const retrieve = async (req, res) => {
     const retrievedData= await db.courses.findAll(
         {include : db.topics}
@@ -18,8 +19,16 @@ const retrieve = async (req, res) => {
     res.json(retrievedData);
 }
 
+const findOne = async (req, res) => {
+    const retrievedData= await db.courses.findOne(
+        {include : db.topics}
+    );
+    console.log(retrievedData);
+    res.json(retrievedData);
+}
+
 const update = async (req, res) => {
-    const inputId = req.params.id;
+    const inputId = req.user.id;
     console.log(req.body)
     await db.courses.update(req.body , {
         where: {
@@ -32,7 +41,7 @@ const update = async (req, res) => {
 }
 
 const destroy = async (req, res) => {
-    const inputId = req.params.id;  //Is it possible to do "req.params.courseTitle" instead of using id in this case (YES, JUST use courseTitle in the route, instead of "id")
+    const inputId = req.user.id;  //Is it possible to do "req.params.courseTitle" instead of using id in this case (YES, JUST use courseTitle in the route, instead of "id")
     await db.courses.destroy({
         where : {
             id : inputId
@@ -50,5 +59,6 @@ module.exports = {
     create,
     retrieve,
     update,
-    destroy
+    destroy,
+    findOne
 }

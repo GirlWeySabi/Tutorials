@@ -9,6 +9,7 @@ const sequelize = new Sequelize(connection.db, connection.user, connection.passw
 
 const Models = new models(sequelize,Sequelize);
 const db = { }
+
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.topics = Models.topics();
@@ -18,6 +19,10 @@ db.user = Models.user ();
 db.courses = Models.courses();
 db.reaction = Models.reaction();
 db.follow = Models.follow();
+db.logout = Models.logout();
+db.forget = Models.forget();
+
+
 
 //associating authors and topics
 

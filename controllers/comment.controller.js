@@ -34,7 +34,7 @@ const findOne = async (req,res) => {
 
 const update = async (req,res) => {
 
-    const inputId = req.params.id;
+    const inputId = req.user.id;
     console.log(inputId);
     await db.comment.update(req.body,{
         where: {
@@ -47,7 +47,7 @@ const update = async (req,res) => {
 
 const destroy = async (req,res) => {
 
-     const inputId = req.params.id;
+     const inputId = req.user.id;
     await db.comment.destroy({
         where : {
             id : inputId

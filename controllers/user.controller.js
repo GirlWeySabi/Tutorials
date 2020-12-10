@@ -76,6 +76,21 @@ const login = async function(req, res){
     
 }}
 
+const logout = async (req,res) =>{
+    console.log('req.user.id',req.user.id);
+   const user = req.user.id;
+   const email = await db.user.findOne({
+       where:{id:user},
+       attribute:['email']
+    });
+
+    const data = await db.logout.create({
+        userid:user,
+        email:email.email
+      });
+     if(data) return res.json('logout');
+     return res.json('not logout');
+}
 
 const profile = async (req,res) => {
     const retrievedData = await db.user.findOne({where: {
@@ -153,5 +168,6 @@ module.exports = {
     destroy,
     login,
     profilePicture,
-    follow
+    follow,
+    logout
 }

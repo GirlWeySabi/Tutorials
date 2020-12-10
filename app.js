@@ -13,12 +13,18 @@ const courseRoute = require('./routes/course.route');
 const reactionRoute = require('./routes/reaction.route');
 const commentRoute = require('./routes/comment.route');
 var topicsRouter = require('./routes/topics');
+const forgetRouter = require('./routes/forgetPassword.route');
+const adminRoute = require('./routes/admin.route');
+
+// middleware
+const isAdmin = require('./middleware/isAdmin');
+
 
 const db = require('./model');
 
 var app = express();
 
-db.sequelize.sync({force : false});
+db.sequelize.sync({force :false});
 
 var app = express();
 
@@ -35,6 +41,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 require('./config/passport')(passport);
 // require('./config/authorsPassport')(passport);
+// require('./config/forgetPassport')(passport);
 
 
 app.use('/authors', authorsRouter);
@@ -43,6 +50,9 @@ app.use('/course', courseRoute);
 app.use('/reaction', reactionRoute);
 app.use('/comment', commentRoute);
 app.use('/topics', topicsRouter);
+app.use('/forget', forgetRouter);
+app.use('/admin', passport.authenticate("jwt",{session:false}), isAdmin, adminRoute);
+
 
 
 // catch 404 and forward to error handler

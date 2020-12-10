@@ -4,6 +4,7 @@ const jwt =require('jsonwebtoken');
 const passport = require('passport');
 const multer = require('multer');
 const singleUpload = require('../middleware/profilePic');
+const { password } = require("../model/config");
 
         
 
@@ -34,8 +35,15 @@ const create = async (req,res) => {
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(req.body.password, salt);
     
-    const data = req.body;
-    data.password =hash;
+    
+    const data = {
+        firstName:req.body.firstName,
+        lastName:req.body.lastName,
+        email:req.body.email,
+        phoneNumber:req.body.phoneNumber,
+        password:hash
+    }
+    
    
   await db.author.create(
         data
@@ -75,6 +83,20 @@ const login = async function(req, res){
     
 }}
 
+const logout = async (req,res) =>{
+    console.log('req.user.id',req.user.id);
+   const user = req.user.id;
+   const email = await db.author.findOne({
+       where:{id:user},
+       attribute:['email']
+    });
+  const data = await db.logout.create({
+      userid:user,
+      email:email.email
+    });
+   if(data) return res.json('logout');
+   return res.json('not logout');
+}
 
 const update = async (req,res) => {
     await db.author.update(req.body,{where:{
@@ -142,7 +164,8 @@ module.exports ={
     update,
     remove,
     profilePicture,
-    upload
+    upload,
+    logout
 
 }
 
