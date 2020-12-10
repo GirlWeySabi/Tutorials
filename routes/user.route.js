@@ -1,19 +1,28 @@
 const express = require('express');
 const router = express.Router();
-
+const passport = require('passport');
+const comparePassword = require('../middleware/comparePassword');
+const checkEmail = require('../middleware/checkEmail');
 
 const controller = require('../controllers/user.controller');
+const clearLogout = require('../middleware/clearLogout');
+const checkLogout = require('../middleware/logout');
 
 
-router.get('/', controller.retrieve);
+router.get('/profile', passport.authenticate("jwt",{session:false}), checkLogout, controller.profile);
 
-router.get('/:id', controller.findOne);
+router.post('/upload/profilepic', passport.authenticate("jwt",{session:false}), checkLogout, controller.profilePicture);
 
-router.post('/', controller.create);
+router.post('/register', checkEmail.checkUserEmail ,comparePassword, controller.create);
 
-router.put('/:id', controller.update);
+router.put('/update',passport.authenticate("jwt",{session:false}), checkLogout, controller.update);
 
-router.delete('/:id', controller.destroy);
+router.delete('/delete',passport.authenticate("jwt",{session:false}), checkLogout, controller.destroy);
+
+router.post('/login', clearLogout, controller.login);
+
+router.post('/logout', passport.authenticate("jwt",{session:false}), checkLogout, controller.logout);
+
 
 
 

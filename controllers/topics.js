@@ -1,30 +1,35 @@
 const db = require('../model');
+const multer = require('multer');
+const multipleUpload =require('../middleware/multiple.upload')
+
 
 const create = async (req, res) => {
     const data = req.body;
-    const authorId = req.params.authorId;
+    const authorId = req.user.authorId;
     const courseId = req.params.courseId
-    await db.Topics.create(
+   const result = await db.topics.create(
         {
            topicsTitle : data.topicsTitle,
+           file: data.file,
+           content: data.content,
            authorId : authorId, 
            courseId : courseId
         }
     );
-    res.json(data);
+    res.json(result);
     console.log(data);
 }
 
 
 const retrieve = async (req,res) => {
-    const retrievedData = await db.Topics.findAll({
+    const retrievedData = await db.topics.findAll({
         include : [
             {
                 model : db.author,
 
             },
             {
-               model : db.CourseModel
+               model : db.courses
 
             }
         ] 
@@ -35,9 +40,9 @@ const retrieve = async (req,res) => {
 
 const update = async (req,res) => {
 
-    const inputId = req.params.id;
+    const inputId = req.user.authorId;
     console.log(req.body);
-    await db.Topics.update(req.body,{
+    await db.topics.update(req.body,{
         where: {
             id:inputId
           }
@@ -48,20 +53,40 @@ const update = async (req,res) => {
 
 const destroy = async (req,res) => {
 
-    const inputId = req.params.id;
-   await db.Topics.destroy({
+    const inputId = req.user.authorId;
+   await db.topics.destroy({
        where : {
            id : inputId
        }
    })
 
-   console.log('deleted succ');
-   res.json('deleted succ');
+   res.json('deleted successfully');
 }
+async function upload(req, res){
+    multerConfig.filesUpload(req, res, async function(err){
+        if (err instanceof multer.MulterError){
+            return res.json(err.message);
+        }
+        else if (err) {
+            return res.json(err);
+        }
+        else if(!req.file){
+            return res.json({"image": req.file, "msg": "please select files to upload"});
+        }
+        if(req.file){
+    
+            await connection.topics.update({files:req.file.path},{where:{id:req.user.id}});
+    
+            return res.json({"msg":"uploaded","file":req.file});
+        }
+    });
+    }
+    
 
 module.exports = {
     create,
     retrieve,
     update,
-    destroy
+    destroy,
+    upload
 }

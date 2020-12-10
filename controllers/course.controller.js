@@ -1,47 +1,36 @@
 const db = require('../model/index');
 
 const create = async (req, res) => {
-    
-    const data = req.body;
-    const authorId = req.params.authorId;
-    const courseTitle = data.courseTitle.toUpperCase();
+    // const data = req.body;
 
-    const check = await db.CourseModel.findOne({
-        where : {
-            courseTitle : courseTitle,
-            authorId : authorId
-        }
-    });
-
-
-    // checking if the instance of the course exits
-    if (check){
-        return;
-    }
-
-    await db.CourseModel.create(
-        {
-            courseTitle : courseTitle,
-            authorId : authorId 
-        }
+   const data = await db.courses.create(
+        req.body
     );
     res.json(data);
-    console.log(data);
+    // console.log(data);
 }
 
 
 const retrieve = async (req, res) => {
-    const retrievedData= await db.CourseModel.findAll(
-        {include : db.Topics}
+    const retrievedData= await db.courses.findAll(
+        {include : db.topics}
+    );
+    console.log(retrievedData);
+    res.json(retrievedData);
+}
+
+const findOne = async (req, res) => {
+    const retrievedData= await db.courses.findOne(
+        {include : db.topics}
     );
     console.log(retrievedData);
     res.json(retrievedData);
 }
 
 const update = async (req, res) => {
-    const inputId = req.params.id;
+    const inputId = req.user.id;
     console.log(req.body)
-    await db.CourseModel.update(req.body , {
+    await db.courses.update(req.body , {
         where: {
             id: inputId
         }
@@ -52,8 +41,8 @@ const update = async (req, res) => {
 }
 
 const destroy = async (req, res) => {
-    const inputId = req.params.id;  //Is it possible to do "req.params.courseTitle" instead of using id in this case (YES, JUST use courseTitle in the route, instead of "id")
-    await db.CourseModel.destroy({
+    const inputId = req.user.id;  //Is it possible to do "req.params.courseTitle" instead of using id in this case (YES, JUST use courseTitle in the route, instead of "id")
+    await db.courses.destroy({
         where : {
             id : inputId
 
@@ -70,5 +59,6 @@ module.exports = {
     create,
     retrieve,
     update,
-    destroy
+    destroy,
+    findOne
 }

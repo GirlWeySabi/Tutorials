@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const bodyParser = require('body-parser');
+const passport = require('passport');
+
 
 var authorsRouter = require('./routes/authors');
 const userRoute = require('./routes/user.route');
@@ -11,12 +13,18 @@ const courseRoute = require('./routes/course.route');
 const reactionRoute = require('./routes/reaction.route');
 const commentRoute = require('./routes/comment.route');
 var topicsRouter = require('./routes/topics');
+const forgetRouter = require('./routes/forgetPassword.route');
+const adminRoute = require('./routes/admin.route');
+
+// middleware
+const isAdmin = require('./middleware/isAdmin');
+
 
 const db = require('./model');
 
 var app = express();
 
-db.sequelize.sync({alter : true});
+db.sequelize.sync({force :false});
 
 var app = express();
 
@@ -30,13 +38,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
+app.use(passport.initialize());
+require('./config/passport')(passport);
+require('./config/authorsPassport')(passport);
+// require('./config/forgetPassport')(passport);
 
-app.use('/author', authorsRouter);
-app.use('/user', userRoute);
+
+app.use('/authors', authorsRouter);
+app.use('/users', userRoute);
 app.use('/course', courseRoute);
 app.use('/reaction', reactionRoute);
 app.use('/comment', commentRoute);
 app.use('/topics', topicsRouter);
+app.use('/forget', forgetRouter);
+app.use('/admin', passport.authenticate("jwt",{session:false}), isAdmin, adminRoute);
+
 
 
 // catch 404 and forward to error handler

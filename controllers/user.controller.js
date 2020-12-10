@@ -1,34 +1,93 @@
-const db = require('../model/index');
+const db = require('../model');
+const bcrypt = require('bcrypt');
 
+const jwt =require('jsonwebtoken');
+const multer = require('multer');
+const singleUpload = require('../middleware/profilePic')
+
+const passport = require('passport');
 const create = async (req, res) => {
-    const data = req.body;
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(req.body.password, salt);
 
-    await db.UserModel.create(
+    const data = req.body;
+    data.password = hash;
+
+    await db.user.create(
         data
     );
-    res.json(data);
+    res.json('registered successfully');
     console.log(data);
 }
 
 const retrieve = async (req, res) => {
-    const retrievedData = await db.UserModel.findAll();
+    const retrievedData = await db.user.findAll();
     console.log(retrievedData);
     res.json(retrievedData);
 } 
 
+const login = async function(req, res){
+    const email = req.body.email;
+    const password = req.body.password;
+    
+    const user = await db.user.findOne({
+        where:{
+            email : email
+        },
 
-const findOne = async (req,res) => {
-    let input = req.params.id;
-    const retrievedData = await db.UserModel.findAll({where: {
-        id : input
+    }
+
+    );
+    if(!user){ 
+        return res.json('not user')
+       
+    }
+    const checkPassword =bcrypt.compareSync(password, user.password); 
+    if (!checkPassword){
+        return res.json("Password incorrect")
+        }
+    else{
+        const payLoad = {
+        id : user.id,
+    }
+    const token = jwt.sign(payLoad, 'myVerySecretUser');
+    res.json({
+        "token" : token,
+        "msg" : "login successful",
+        "user" : user,
+        "status" : 200
+    });
+    
+}}
+
+const logout = async (req,res) =>{
+    console.log('req.user.id',req.user.id);
+   const user = req.user.id;
+   const email = await db.user.findOne({
+       where:{id:user},
+       attribute:['email']
+    });
+
+    const data = await db.logout.create({
+        userid:user,
+        email:email.email
+      });
+     if(data) return res.json('logout');
+     return res.json('not logout');
+}
+
+const profile = async (req,res) => {
+    const retrievedData = await db.user.findOne({where: {
+        id : req.user.id
     },
 
     include :[
         {
-            model : db.CommentModel
+            model : db.comment
         },
         {
-            model : db.ReactionModel
+            model : db.reaction
         }
    ]
 });
@@ -65,12 +124,34 @@ res.json('deleted successfully');
 
 }
 
-// WHAT IF I WANT TO DELETE AND THEN I WANT IT TO SHOW ME THE REMAINING DATA AS A RESPONSE (IN ADDITION TO "success message") ANSWER: you can use findAll function for that!
+const profilePicture = (req,res)=>{
+    singleUpload(req, res, async function(err){
+        if (err instanceof multer.MulterError){
+            return res.json(err.message);
+        }
+        else if (err) {
+            return res.json(err);
+        }
+        else if(!req.file){
+            return res.json({"image": req.file, "msg": "please select an image to upload"});
+        }
+        if(req.file){
+    
+            await db.user.update({profile_pic:req.file.path},{where:{id:req.user.id}});
+    
+            return res.json({"msg":"uploaded","file":req.file});
+        }
+    });
+    
+}
 
 module.exports = {
     create,
     retrieve,
-    findOne,
+    profile,
     update,
     destroy,
+    login,
+    profilePicture,
+    logout
 }

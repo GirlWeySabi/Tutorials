@@ -1,6 +1,6 @@
 const connection = require('./config');
-const {Sequelize} = require('sequelize');
-const models =  require('./models.model');
+const {Sequelize, Model} = require('sequelize');
+const models = require('./models.models')
 
 const sequelize = new Sequelize(connection.db, connection.user, connection.password, {
     host : connection.host,
@@ -12,73 +12,43 @@ const db = { }
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-
-db.Topics = Models.topics();
-db.CommentModel = Models.comment();
+db.topics = Models.topics();
+db.comment = Models.comment();
 db.author = Models.authors();
-db.UserModel = Models.user();
-db.CourseModel = Models.courses();
-db.ReactionModel = Models.reaction();
+db.user = Models.user ();
+db.courses = Models.courses();
+db.reaction = Models.reaction();
+db.logout = Models.logout();
+db.forget = Models.forget();
 
 
+
+//associating authors and topics
+
+db.author.hasMany(db.topics);
+db.topics.belongsTo(db.author);
+
+db.author.hasMany(db.courses);
+db.courses.belongsTo(db.author);
+
+//associating courses and topics
+db.courses.hasMany(db.topics);
+db.topics.belongsTo(db.courses);
 
 //associating users and comment
-db.UserModel.hasOne(db.CommentModel);
-db.CommentModel.belongsTo(db.UserModel,{
-    foreignKey: {
-        allowNull : false
-      }
-});
+db.user.hasOne(db.comment);
+db.comment.belongsTo(db.user);
 
 //associating users and reaction
-db.UserModel.hasOne(db.ReactionModel);
-db.ReactionModel.belongsTo(db.UserModel,{
-    foreignKey: {
-        allowNull : false
-      }
-});
+db.user.hasOne(db.reaction);
+db.reaction.belongsTo(db.user);
 
 //associating topics and comments
-db.Topics.hasMany(db.CommentModel);
-db.CommentModel.belongsTo(db.Topics,{
-    foreignKey: {
-        allowNull : false
-      }
-});
+db.topics.hasMany(db.comment);
+db.comment.belongsTo(db.topics);
 
 //associating topics and reaction
-db.Topics.hasMany(db.ReactionModel);
-db.ReactionModel.belongsTo(db.Topics,{
-    foreignKey: {
-        allowNull : false
-      }
-});
-
-
-
-
-db.author.hasMany(db.Topics);
-db.Topics.belongsTo(db.author,{
-    foreignKey: {
-        allowNull : false
-      }
-});
-
-db.author.hasOne(db.CourseModel);
-db.CourseModel.belongsTo(db.author,{
-    foreignKey: {
-        allowNull : false
-      }
-});
-
-
-
-db.CourseModel.hasOne(db.Topics);
-db.Topics.belongsTo(db.CourseModel,{
-    foreignKey: {
-        allowNull : false
-      }
-});
-
+db.topics.hasMany(db.reaction);
+db.reaction.belongsTo(db.topics);
 
 module.exports = db; 
