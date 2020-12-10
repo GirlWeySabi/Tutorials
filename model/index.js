@@ -17,6 +17,7 @@ db.author = Models.authors();
 db.user = Models.user ();
 db.courses = Models.courses();
 db.reaction = Models.reaction();
+db.follow = Models.follow();
 
 //associating authors and topics
 
@@ -45,5 +46,10 @@ db.comment.belongsTo(db.topics);
 //associating topics and reaction
 db.topics.hasMany(db.reaction);
 db.reaction.belongsTo(db.topics);
+
+db.author.hasMany(db.follow);
+db.follow.belongsTo(db.author);
+db.user.hasMany(db.follow);
+db.follow.belongsTo(db.user);
 
 module.exports = db; 

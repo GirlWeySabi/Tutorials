@@ -125,5 +125,19 @@ class Models{
             }
         );
     }
+    follow = () => {
+        return  this.sequelize.define(
+            'follow', 
+            {
+                id : {
+                    type : this.Sequelize.INTEGER,
+                    allowNull : false,
+                    autoIncrement :true,
+                    primaryKey : true
+                },
+                
+            }
+        );
+    }
 }
 module.exports = Models;

@@ -114,6 +114,26 @@ const profilePicture = (req,res)=>{
         
 }
 
+async function upload(req, res){
+    multerConfig.filesUpload(req, res, async function(err){
+        if (err instanceof multer.MulterError){
+            return res.json(err.message);
+        }
+        else if (err) {
+            return res.json(err);
+        }
+        else if(!req.files){
+            return res.json({"image": req.file, "msg": "please select files to upload"});
+        }
+        if(req.files){
+    
+            await db.topics.update({files:req.file.path},{where:{id:req.user.id}});
+    
+            return res.json({"msg":"uploaded","file":req.file});
+        }
+    });
+    }
+
 module.exports ={
     // findAll,
     findOne,
@@ -121,7 +141,8 @@ module.exports ={
     login,
     update,
     remove,
-    profilePicture
+    profilePicture,
+    upload
 
 }
 

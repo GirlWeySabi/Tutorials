@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 require('./config/passport')(passport);
-require('./config/authorsPassport')(passport);
+// require('./config/authorsPassport')(passport);
 
 
 app.use('/authors', authorsRouter);

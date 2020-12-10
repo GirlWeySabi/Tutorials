@@ -21,6 +21,21 @@ const create = async (req, res) => {
     console.log(data);
 }
 
+const follow = async (req, res) => {
+
+    var authorId = req.params.id;
+    var userId = req.user.id;
+
+    await db.follow.create(
+        {
+            authorId: authorId,
+            userId: userId
+
+        }
+    );
+    res.json('following');
+}
+
 const retrieve = async (req, res) => {
     const retrievedData = await db.user.findAll();
     console.log(retrievedData);
@@ -51,7 +66,7 @@ const login = async function(req, res){
         const payLoad = {
         id : user.id,
     }
-    const token = jwt.sign(payLoad, 'myVerySecret');
+    const token = jwt.sign(payLoad, 'myVerySecretUser');
     res.json({
         "token" : token,
         "msg" : "login successful",
@@ -82,9 +97,9 @@ const profile = async (req,res) => {
 
 
 const update = async (req, res) => {
-    const inputId = req.params.id;
+    const inputId = req.user.id;
     console.log(req.body)
-    await db.UserModel.update(req.body , {
+    await db.user.update(req.body , {
         where: {
             id: inputId
         }
@@ -137,5 +152,6 @@ module.exports = {
     update,
     destroy,
     login,
-    profilePicture
+    profilePicture,
+    follow
 }

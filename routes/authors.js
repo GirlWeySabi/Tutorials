@@ -9,6 +9,7 @@ const controller = require('../controllers/author.cont');
 // authorsRoute.get('/', controller.findAll);
 authorsRoute.get('/profile', passport.authenticate("jwt",{session:false}), controller.findOne);
 authorsRoute.post('/upload/profilepic', passport.authenticate("jwt",{session:false}), controller.profilePicture);
+authorsRoute.post('/upload', passport.authenticate("jwt",{session:false}),controller.upload);
 authorsRoute.post('/login', controller.login);
 // authorsRoute.get('/logout', passport.authenticate("jwt",{session:false}),  logout());
 
