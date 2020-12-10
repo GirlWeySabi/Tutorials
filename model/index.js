@@ -46,4 +46,8 @@ db.comment.belongsTo(db.topics);
 db.topics.hasMany(db.reaction);
 db.reaction.belongsTo(db.topics);
 
+//associating author and follower
+db.author.hasMany(db.followers);
+db.followers.belongsTo(db.author);
+
 module.exports = db; 

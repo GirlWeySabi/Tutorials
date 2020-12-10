@@ -12,6 +12,7 @@ const userRoute = require('./routes/user.route');
 const courseRoute = require('./routes/course.route');
 const reactionRoute = require('./routes/reaction.route');
 const commentRoute = require('./routes/comment.route');
+const followersRoute = require('./routes/followers.route');
 var topicsRouter = require('./routes/topics');
 
 const db = require('./model');
@@ -42,6 +43,7 @@ app.use('/users', userRoute);
 app.use('/course', courseRoute);
 app.use('/reaction', reactionRoute);
 app.use('/comment', commentRoute);
+app.use('/followers', followersRoute);
 app.use('/topics', topicsRouter);
 
 

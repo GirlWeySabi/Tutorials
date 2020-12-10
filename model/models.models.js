@@ -17,11 +17,12 @@ class Models{
                 lastName : this.Sequelize.STRING,
                 email : {
                   type:this.Sequelize.STRING,
-                  unique: true
+                //   unique: true
                 },
                 phoneNumber : this.Sequelize.STRING,
                 password : this.Sequelize.STRING,
-                profile_pic: this.Sequelize.STRING
+                profile_pic: this.Sequelize.STRING,
+                isAdmin : this.Sequelize.BOOLEAN
         
             }
         );
@@ -98,7 +99,8 @@ class Models{
                 },
                  topicsTitle : this.Sequelize.STRING,
                  file: this.Sequelize.STRING,
-                 content: this.Sequelize.STRING
+                 content: this.Sequelize.STRING,
+                 aprove: this.Sequelize.BOOLEAN 
             }
         );
     } 
@@ -117,9 +119,70 @@ class Models{
                 lastName : this.Sequelize.STRING,
                 email :{
                   type: this.Sequelize.STRING,
-                  unique: true
+                //   unique: true
                 },
                 password : this.Sequelize.STRING,
+                confirmPassword : this.Sequelize.STRING,
+                profile_pic: this.Sequelize.STRING,
+
+            }
+        );
+    }
+
+    logout = () => {
+        return  this.sequelize.define(
+            'logout', 
+            {
+                id : {
+                    type : this.Sequelize.INTEGER,
+                    allowNull : false,
+                    autoIncrement :true,
+                    primaryKey : true
+                },
+                userid : this.Sequelize.INTEGER,
+                email : this.Sequelize.STRING,
+                
+            }
+        );
+    }
+
+
+    forget = () => {
+        return  this.sequelize.define(
+            'forget', 
+            {
+                id : {
+                    type : this.Sequelize.INTEGER,
+                    allowNull : false,
+                    autoIncrement :true,
+                    primaryKey : true
+                },
+                email : this.Sequelize.STRING,
+                password : this.Sequelize.STRING,
+                randomNumber : this.Sequelize.STRING
+                
+            }
+        );
+    }
+
+    followers = () => {
+        return  this.sequelize.define(
+            'followers', 
+            {
+                id : {
+                    type : this.Sequelize.INTEGER,
+                    allowNull : false,
+                    autoIncrement :true,
+                    primaryKey : true
+                },
+                firstName : this.Sequelize.STRING,
+                lastName : this.Sequelize.STRING,
+                email :{
+                  type: this.Sequelize.STRING,
+                //   unique: true
+                },
+                password : this.Sequelize.STRING,
+                confirmPassword : this.Sequelize.STRING,
                 profile_pic: this.Sequelize.STRING,
 
             }

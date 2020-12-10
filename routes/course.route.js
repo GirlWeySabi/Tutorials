@@ -3,16 +3,16 @@ const router = express.Router();
 const passport = require('passport');
 
 
-const controllerC = require('../controllers/course.controller');
+const controller = require('../controllers/course.controller');
 
 
-router.get('/', controllerC.retrieve);
+router.get('/', controller.retrieve);
 
-router.post('/', passport.authenticate("jwt",{session:false}), controllerC.create);
+router.post('/', passport.authenticate("jwt",{session:false}), controller.create);
 
-router.put('/:id', passport.authenticate("jwt",{session:false}), controllerC.update);
+router.put('/:id', passport.authenticate("jwt",{session:false}), controller.update);
 
-router.delete('/:id', passport.authenticate("jwt",{session:false}), controllerC.destroy);
+router.delete('/:id', passport.authenticate("jwt",{session:false}), controller.destroy);
 
 
 
