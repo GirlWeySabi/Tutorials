@@ -23,7 +23,11 @@ router.post('/login', clearLogout, controller.login);
 
 router.post('/logout', passport.authenticate("jwt.users",{session:false}), checkLogout, controller.logout);
 
-
+//auth with google
+router.get('/google', (req, res) => {
+    //handle with passport
+    res.send('logging in with google');
+});
 
 
 module.exports = router;
