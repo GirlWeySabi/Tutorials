@@ -7,15 +7,15 @@ const checkLogout = require('../middleware/logout');
 const controllerC = require('../controllers/course.controller');
 
 
-router.get('/allcourses', passport.authenticate("jwt",{session:false}), controllerC.retrieve);
+router.get('/allcourses', passport.authenticate("jwt.authors",{session:false}), controllerC.retrieve);
 
-router.get('/singlecourse', passport.authenticate("jwt",{session:false}), controllerC.findOne);
+router.get('/singlecourse', passport.authenticate("jwt.authors",{session:false}), controllerC.findOne);
 
-router.post('/create', passport.authenticate("jwt",{session:false}), checkLogout, controllerC.create);
+router.post('/create', passport.authenticate("jwt.authors",{session:false}), checkLogout, controllerC.create);
 
-router.put('/update', passport.authenticate("jwt",{session:false}), checkLogout, controllerC.update);
+router.put('/update', passport.authenticate("jwt.authors",{session:false}), checkLogout, controllerC.update);
 
-router.delete('/delete', passport.authenticate("jwt",{session:false}), checkLogout, controllerC.destroy);
+router.delete('/delete', passport.authenticate("jwt.authors",{session:false}), checkLogout, controllerC.destroy);
 
 
 

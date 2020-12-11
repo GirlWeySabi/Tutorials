@@ -51,7 +51,7 @@ const login = async function(req, res){
         const payLoad = {
         id : user.id,
     }
-    const token = jwt.sign(payLoad, 'myVerySecretUser');
+    const token = jwt.sign(payLoad, 'myVerySecret');
     res.json({
         "token" : token,
         "msg" : "login successful",
