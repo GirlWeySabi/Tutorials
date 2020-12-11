@@ -24,7 +24,7 @@ const db = require('./model');
 
 var app = express();
 
-db.sequelize.sync({force :false});
+db.sequelize.sync({alter :false});
 
 var app = express();
 
@@ -41,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 require('./config/passport')(passport);
-// require('./config/authorsPassport')(passport);
+
 
 
 app.use('/authors', authorsRouter);
@@ -51,7 +51,7 @@ app.use('/reaction', reactionRoute);
 app.use('/comment', commentRoute);
 app.use('/topics', topicsRouter);
 app.use('/forget', forgetRouter);
-app.use('/admin', passport.authenticate("jwt",{session:false}), isAdmin, adminRoute);
+app.use('/admin', passport.authenticate("jwt.authors",{session:false}), isAdmin, adminRoute);
 
 
 

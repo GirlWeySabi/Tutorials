@@ -139,7 +139,7 @@ async function main() {
       }
       
       
-    const token = jwt.sign(payLoad, 'myVerySecretForget');
+    const token = jwt.sign(payLoad, 'myVerySecret');
     res.json({
         "token" : token,
         "msg" : "email sent successful",

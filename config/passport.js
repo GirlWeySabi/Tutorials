@@ -6,6 +6,7 @@ const models = require('../model');
 
 const user = models.user;
 const author = models.author;
+const forget = models.forget;
 
 
 const jwtOptions = {}
@@ -42,7 +43,20 @@ module.exports = passport =>{
             }
         ));
     
-    
+        passport.use('jwt.forget',new JwtStrategy(
+            jwtOptions,(jwt_payload, done)=>{
+                forget.findOne({where:{email:jwt_payload.email}}).then(forget =>{
+                    console.log(forget);
+                    console.log(jwt_payload);
+                    if(forget){
+                        return done(null, forget);
+                    }
+                    return done(null, false);
+                }).catch(err =>{
+                    console.log(err);
+                });
+            }
+        ));
     
 }
 

@@ -10,8 +10,8 @@ const passport = require('passport');
 router.post('/author', comparePassword, forget.verifyEmailAuthor);
 router.post('/user', comparePassword, forget.verifyEmailUser);
 
-router.post('/changepasswordauthor', passport.authenticate("jwt",{session:false}), compareRandomDigit, updatePasswordAuthor, forget.changePassword);
-router.post('/changepassworduser', passport.authenticate("jwt",{session:false}), compareRandomDigit, updatePasswordUser, forget.changePassword);
+router.post('/changepasswordauthor', passport.authenticate("jwt.forget",{session:false}), compareRandomDigit, updatePasswordAuthor, forget.changePassword);
+router.post('/changepassworduser', passport.authenticate("jwt.forget",{session:false}), compareRandomDigit, updatePasswordUser, forget.changePassword);
 
 
 module.exports = router
