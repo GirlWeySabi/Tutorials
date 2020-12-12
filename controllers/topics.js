@@ -62,24 +62,44 @@ const destroy = async (req,res) => {
 
    res.json('deleted successfully');
 }
-async function upload(req, res){
-    multerConfig.filesUpload(req, res, async function(err){
-        if (err instanceof multer.MulterError){
-            return res.json(err.message);
-        }
-        else if (err) {
-            return res.json(err);
-        }
-        else if(!req.file){
-            return res.json({"image": req.file, "msg": "please select files to upload"});
-        }
-        if(req.file){
-    
-            await connection.topics.update({files:req.file.path},{where:{id:req.user.id}});
-    
-            return res.json({"msg":"uploaded","file":req.file});
-        }
-    });
+const upload = async(req,res)=>{
+            
+   const file = req.files;
+   let data;
+
+   !file ?
+        res.json({'msg': 'please you need to select a file'})
+        :
+            !file.image ?
+                ''
+                :
+                    file.image.forEach(async (image) => {
+                        console.log(image.originalname)
+                    data = await db.image.create(
+                            {
+                                image:image.path,
+                                topicId:req.params.topicId
+                            }
+                            
+                            );
+                        res.json({"msg":"uploaded","file":req.files});
+                    });
+
+            !file.video ?
+                ''
+                :        
+
+                file.video.forEach(async (video) => {
+                    console.log(video.originalname)
+                data = await db.video.create(
+                        {
+                            video:video.path,
+                            topicId:req.params.topicId
+                        }
+                        
+                        );
+                    res.json({"msg":"uploaded","file":req.files});
+                });
     }
     
 

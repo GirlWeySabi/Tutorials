@@ -164,5 +164,55 @@ class Models{
             }
         );
     }
+
+    follow = () => {
+        return  this.sequelize.define(
+            'follow', 
+            {
+                id : {
+                    type : this.Sequelize.INTEGER,
+                    allowNull : false,
+                    autoIncrement :true,
+                    primaryKey : true
+                },
+                
+                
+            }
+        );
+    }
+
+    image = () => {
+        return  this.sequelize.define(
+            'image', 
+            {
+                id : {
+                    type : this.Sequelize.INTEGER,
+                    allowNull : false,
+                    autoIncrement :true,
+                    primaryKey : true
+                },
+                image : this.Sequelize.STRING
+                
+                
+            }
+        );
+    }
+
+    video = () => {
+        return  this.sequelize.define(
+            'video', 
+            {
+                id : {
+                    type : this.Sequelize.INTEGER,
+                    allowNull : false,
+                    autoIncrement :true,
+                    primaryKey : true
+                },
+                video : this.Sequelize.STRING
+                
+                
+            }
+        );
+    }
 }
 module.exports = Models;

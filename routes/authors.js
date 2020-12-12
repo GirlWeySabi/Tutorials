@@ -7,6 +7,7 @@ const checkLogout = require('../middleware/logout');
 const clearLogout = require('../middleware/clearLogout');
 
 const controller = require('../controllers/author.cont');
+const followController = require('../controllers/follow.controller');
 
 // authorsRoute.get('/', controller.findAll);
 authorsRoute.get('/profile', passport.authenticate("jwt.authors",{session:false}), checkLogout, controller.findOne);
@@ -18,8 +19,11 @@ authorsRoute.post('/register',checkEmail.checkAuthorsEmail, conparePassword, con
 
 authorsRoute.put('/update', passport.authenticate("jwt.authors",{session:false}), checkLogout, controller.update);
 
-authorsRoute.delete('/:id', passport.authenticate("jwt.authors",{session:false}), checkLogout, controller.remove);
+authorsRoute.delete('/', passport.authenticate("jwt.authors",{session:false}), checkLogout, controller.remove);
 
 authorsRoute.post('/logout', passport.authenticate("jwt.authors",{session:false}), checkLogout, controller.logout);
+
+authorsRoute.get('/seefollowers', passport.authenticate("jwt.authors",{session:false}), checkLogout, followController.seeMyFollowers);
+
 
 module.exports = authorsRoute;

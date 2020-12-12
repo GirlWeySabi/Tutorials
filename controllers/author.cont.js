@@ -15,14 +15,14 @@ const findOne = async (req,res) => {
             where: {
              id : req.user.id
         },
-        include : [
-            {
-                model : db.topics,
-                include : [{model : db.courses}]
-                
-            }
+        include :  [{
+            model:db.courses,
+            include:{model:db.topics}
+        }]  
+                              
             
-        ]
+            
+        
     });
 
     console.log(data);    
@@ -110,7 +110,7 @@ const remove = async (req,res) => {
 
     await db.author.destroy({
         where:{
-            id : req.author.id
+            id : req.user.id
     }
 });
     res.json('deleted successfully');

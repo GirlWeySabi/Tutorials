@@ -13,6 +13,9 @@ router.get('/singlecourse', passport.authenticate("jwt.authors",{session:false})
 
 router.post('/create', passport.authenticate("jwt.authors",{session:false}), checkLogout, controllerC.create);
 
+router.post('/create/pic/:courseId', passport.authenticate("jwt.authors",{session:false}), checkLogout, controllerC.profilePicture);
+
+
 router.put('/update', passport.authenticate("jwt.authors",{session:false}), checkLogout, controllerC.update);
 
 router.delete('/delete', passport.authenticate("jwt.authors",{session:false}), checkLogout, controllerC.destroy);

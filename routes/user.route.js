@@ -5,6 +5,7 @@ const comparePassword = require('../middleware/comparePassword');
 const checkEmail = require('../middleware/checkEmail');
 
 const controller = require('../controllers/user.controller');
+const followController = require('../controllers/follow.controller');
 const clearLogout = require('../middleware/clearLogout');
 const checkLogout = require('../middleware/logout');
 
@@ -22,6 +23,15 @@ router.delete('/delete',passport.authenticate("jwt.users",{session:false}), chec
 router.post('/login', clearLogout, controller.login);
 
 router.post('/logout', passport.authenticate("jwt.users",{session:false}), checkLogout, controller.logout);
+
+router.post('/follow/:id', passport.authenticate("jwt.users",{session:false}), checkLogout, followController.follow);
+
+router.get('/whoamfollowing', passport.authenticate("jwt.users",{session:false}), checkLogout, followController.whoYouFollow);
+
+router.delete('/unfollow/:id', passport.authenticate("jwt.users",{session:false}), checkLogout, followController.unFollow);
+
+
+
 
 
 
