@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+
 const forget = require('../controllers/forgetpassword.controller');
 const comparePassword = require('../middleware/comparePassword');
 const compareRandomDigit = require('../middleware/compareRandomDigit');

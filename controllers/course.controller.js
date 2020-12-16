@@ -18,7 +18,15 @@ const create = async (req, res) => {
 
 const retrieve = async (req, res) => {
     const retrievedData= await db.courses.findAll(
-        {include : db.topics}
+        {
+                include : [{
+                    model:db.topics,
+                    include:{model:db.author},
+                    include:{model:db.comment},
+                    include:{model:db.reaction}
+
+            }]
+        }
     );
     console.log(retrievedData);
     res.json(retrievedData);
@@ -26,7 +34,20 @@ const retrieve = async (req, res) => {
 
 const findOne = async (req, res) => {
     const retrievedData= await db.courses.findOne(
-        {include : db.topics}
+       {
+           where : {
+               id : req.params.courseId,
+               authorId : req.user.id
+        },
+
+           include : [{
+            model:db.topics,
+            include:{model:db.author},
+            include:{model:db.comment},
+            include:{model:db.reaction}
+
+    }]
+       }
     );
     console.log(retrievedData);
     res.json(retrievedData);
@@ -37,7 +58,8 @@ const update = async (req, res) => {
     console.log(req.body)
     await db.courses.update(req.body , {
         where: {
-            id: inputId
+            authorId: inputId,
+            id : courseId
         }
     });
     console.log('update successful');
@@ -49,7 +71,8 @@ const destroy = async (req, res) => {
     const inputId = req.user.id;  //Is it possible to do "req.params.courseTitle" instead of using id in this case (YES, JUST use courseTitle in the route, instead of "id")
     await db.courses.destroy({
         where : {
-            id : inputId
+            authorId : inputId,
+            id : courseId
 
     }
 })

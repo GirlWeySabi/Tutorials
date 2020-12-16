@@ -5,12 +5,12 @@ const multipleUpload =require('../middleware/multiple.upload')
 
 const create = async (req, res) => {
     const data = req.body;
-    const authorId = req.user.authorId;
+    const authorId = req.user.id;
     const courseId = req.params.courseId
    const result = await db.topics.create(
         {
            topicsTitle : data.topicsTitle,
-           file: data.file,
+      
            content: data.content,
            authorId : authorId, 
            courseId : courseId
@@ -24,13 +24,11 @@ const create = async (req, res) => {
 const retrieve = async (req,res) => {
     const retrievedData = await db.topics.findAll({
         include : [
+            
             {
-                model : db.author,
+                model : db.courses,
 
-            },
-            {
-               model : db.courses
-
+                include:{model:db.author}
             }
         ] 
     });

@@ -8,26 +8,44 @@ const create = async (req, res) => {
        {
 
            comment : data.comment,
-           userId : data.userId,
+           userId : req.user.id,
            topicId : req.params.topicId
         }
     );
-    res.json(data);
+    res.json({'msg':'commented'});
 }
 
 
 const retrieve = async (req,res) => {
-   const retrivedData = await db.comment.findAll( );
+   const retrivedData = await db.comment.findAll( {
+    include : [{
+        model:db.topics,
+        include:[{
+            model:db.courses,
+  
+            include:{model:db.author}
+        },
+        {model:db.reaction}
+    ]
+    }]
+   });
     res.json(retrivedData);
 }
 const findOne = async (req,res) => {
     let input = req.user.id;
-    const retrievedData = await db.comment.findAll({where: {
+    const retrievedData = await db.comment.findOne({where: {
         id : input
     },
-    include : [
-        {model : db.topics},
-        {model : db.user}]
+    include : [{
+        model:db.topics,
+        include:[{
+            model:db.courses,
+  
+            include:{model:db.author}
+        },
+        {model:db.reaction}
+    ]
+    }]
 });
     res.json(retrievedData);
 }

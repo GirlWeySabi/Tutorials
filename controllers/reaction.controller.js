@@ -7,7 +7,7 @@ const create = async (req, res) => {
    await db.reaction.create(
         {
             react : data.react,
-            userId : data.userId,
+            userId : req.user.id,
             topicId : req.params.topicId
         }
     );
@@ -16,19 +16,46 @@ const create = async (req, res) => {
 }
 
 const retrieve = async (req,res) => {
-   const retrivedData = await db.reaction.findAll();
+    let input = req.user.id;
+
+   const retrivedData = await db.reaction.findAll({where: {
+    id : input,
+    react : '1'
+},
+include : [{
+    model:db.topics,
+    where:{aprove:1},
+    include:{
+        model:db.courses,
+        where:{aprove:1}
+    },
+    include:{model:db.author},
+
+}]
+});
     console.log(retrivedData);
     res.json(retrivedData);
 }
 
 const findOne = async (req,res) => {
     let input = req.user.id;
-    const retrievedData = await db.reaction.findAll({where: {
-        id : input
+    const retrievedData = await db.reaction.findOne({where: {
+        id : input,
+        react : '1',
+        topicId : req.params.topicId
     },
-    include : [
-        {model : db.topics},
-        {model : db.UserModel}]
+    include : [{
+        model:db.topics,
+        where:{aprove:1},
+
+        include:{
+            model:db.courses,
+            where:{aprove:1}
+
+        },
+        include:{model:db.author},
+
+    }]
 });
     res.json(retrievedData);
 }
@@ -39,11 +66,12 @@ const update = async (req,res) => {
     console.log(req.body);
     await db.reaction.update(req.body,{
         where: {
-            id:inputId
+            id:inputId,
+            topicId:req.params.topicId
           }
     });
-    console.log('update succ');
-    res.json('update succ');
+    
+    res.json({'msg':'update successful'});
 }
 
 const destroy = async (req,res) => {
@@ -51,12 +79,14 @@ const destroy = async (req,res) => {
      const inputId = req.user.id;
     await db.reaction.destroy({
         where : {
-            id : inputId
+            id : inputId,
+            topicId:req.params.topicId
+
         }
     })
+   
+    res.json({'msg':'deleted reaction successful'});
 
-    console.log('deleted succ');
-    res.json('deleted succ');
 }
 
 module.exports = {

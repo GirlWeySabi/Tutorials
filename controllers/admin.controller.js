@@ -141,6 +141,35 @@ const updatePost = async (req,res) =>{
 }
 
 
+const allCourse = async (req,res) =>{
+    const data = await db.courses.findAll();
+    data ?
+        data.length == 0 ? 
+            res.json({'msg':'no topics yet'})
+            :res.json(data)
+        : res.json({'msg':'fail to fecth topics'})
+        
+}
+
+const singleCourse = async (req,res) =>{
+    const data = await db.courses.findOne({where:{id:req.params.id}});
+    data ?
+        data.length == 0 ? 
+            res.json({'msg':'no topics yet'})
+            :res.json(data)
+        : res.json({'msg':'fail to fecth topics'})
+        
+}
+
+const updateCourse = async (req,res) =>{
+    const data = await db.courses.update({aprove:req.body.aprove},{where:{id:req.params.id}});
+    data ?
+        res.json(data)
+        : res.json({'msg':'no topics yet'})
+        
+}
+
+
 module.exports = {
     allAuthors,
     allUsers,
@@ -152,5 +181,8 @@ module.exports = {
     authorProfilePicture,
     allPost,
     singlePost,
-    updatePost
+    updatePost,
+    allCourse,
+    singleCourse,
+    updateCourse
 }

@@ -17,7 +17,11 @@ router.put('/updateuserpic/:id', adminController.userProfilePicture);
 
 router.get('/allpost', adminController.allPost);
 router.get('/singlepost/:id', adminController.singlePost);
-router.put('/updatpost/:id', adminController.updatePost);
+router.put('/updatepost/:id', adminController.updatePost);
+
+router.get('/allcourse', adminController.allCourse);
+router.get('/singlecourse/:id', adminController.singleCourse);
+router.put('/updatecourse/:id', adminController.updateCourse);
 
 
 

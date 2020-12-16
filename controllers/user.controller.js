@@ -6,6 +6,7 @@ const multer = require('multer');
 const singleUpload = require('../middleware/profilePic')
 
 const passport = require('passport');
+const { comment } = require('../model');
 const create = async (req, res) => {
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
@@ -83,11 +84,37 @@ const profile = async (req,res) => {
     },
 
     include :[
-        {
-            model : db.comment
+       {
+           model:db.comment,
+           include:[{
+               model:db.topics,
+               where:{aprove:1},
+               include:{model:db.author}
+            }]
+       },
+       {
+           model:db.reaction,
+           include:{
+               model:db.topics,
+               include:{
+                   model:db.author
+                }
+            }
         },
         {
-            model : db.reaction
+            model:db.follow,
+            include:{
+                model:db.author,
+                include:[{
+                    model:db.courses,
+                    where:{aprove:1}
+                },
+                { 
+                    model:db.topics,
+                    where:{aprove:1}
+                }
+            ]
+            }
         }
    ]
 });
@@ -97,7 +124,7 @@ const profile = async (req,res) => {
 
 
 const update = async (req, res) => {
-    const inputId = req.params.id;
+    const inputId = req.user.id;
     console.log(req.body)
     await db.UserModel.update(req.body , {
         where: {
@@ -105,12 +132,12 @@ const update = async (req, res) => {
         }
     });
     console.log('update successful');
-    res.json('update successful')
+    res.json({'msg':'update successful'});
 
 }
 
 const destroy = async (req, res) => {
-    const inputId = req.params.id;
+    const inputId = req.user.id;
     await db.UserModel.destroy({
         where : {
             id : inputId

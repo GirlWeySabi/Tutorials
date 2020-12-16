@@ -60,7 +60,9 @@ class Models{
                     primaryKey : true
                 },
                 courseTitle : this.Sequelize.STRING,
-                photo: this.Sequelize.STRING
+                photo: this.Sequelize.STRING,
+                aprove: this.Sequelize.BOOLEAN 
+
             }
         );
     }
@@ -98,7 +100,7 @@ class Models{
                     autoIncrement : true
                 },
                  topicsTitle : this.Sequelize.STRING,
-                 file: this.Sequelize.STRING,
+                
                  content: this.Sequelize.STRING,
                  aprove: this.Sequelize.BOOLEAN 
             }

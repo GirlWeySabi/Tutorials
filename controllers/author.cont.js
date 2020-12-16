@@ -15,9 +15,23 @@ const findOne = async (req,res) => {
             where: {
              id : req.user.id
         },
+        
         include :  [{
             model:db.courses,
-            include:{model:db.topics}
+      
+            include:{
+                model:db.topics,
+                include:[
+                    {model:db.comment},
+                    {model:db.reaction},
+                    {model:db.video},
+                    {model:db.image}
+                ]
+            }
+        },
+        {
+            model:db.follow,
+            include:{model:db.user}
         }]  
                               
             
@@ -31,6 +45,7 @@ const findOne = async (req,res) => {
 
 const create = async (req,res) => {
 
+    console.log('am register');
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(req.body.password, salt);
